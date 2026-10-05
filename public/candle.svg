@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 560" role="img" aria-label="شمعة">
+  <defs>
+    <linearGradient id="body" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0" stop-color="#141416"/>
+      <stop offset="0.28" stop-color="#2a2a2e"/>
+      <stop offset="0.5" stop-color="#232327"/>
+      <stop offset="0.85" stop-color="#151517"/>
+      <stop offset="1" stop-color="#0d0d0e"/>
+    </linearGradient>
+    <linearGradient id="top" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#34343a"/>
+      <stop offset="1" stop-color="#1c1c20"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#fab838" stop-opacity="0.45"/>
+      <stop offset="0.45" stop-color="#7b5cff" stop-opacity="0.12"/>
+      <stop offset="1" stop-color="#7b5cff" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="topLight" cx="0.5" cy="0" r="0.9">
+      <stop offset="0" stop-color="#fab838" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#fab838" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="shadow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#000" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- ground shadow -->
+  <ellipse cx="160" cy="532" rx="150" ry="18" fill="url(#shadow)"/>
+
+  <!-- flame glow -->
+  <circle class="candle-glow" cx="160" cy="118" r="120" fill="url(#glow)"/>
+
+  <!-- body: solid pillar, no drips -->
+  <path d="M40 214 Q40 200 54 198 L266 198 Q280 200 280 214 L280 508 Q280 528 250 530 L70 530 Q40 528 40 508 Z" fill="url(#body)"/>
+  <!-- subtle vertical highlight -->
+  <rect x="92" y="214" width="14" height="300" rx="7" fill="#ffffff" opacity="0.035"/>
+  <!-- warm light on the body from the flame -->
+  <path d="M40 214 Q40 200 54 198 L266 198 Q280 200 280 214 L280 330 L40 330 Z" fill="url(#topLight)"/>
+
+  <!-- top surface (slight concave rim, clean edge) -->
+  <ellipse cx="160" cy="204" rx="120" ry="18" fill="url(#top)"/>
+  <ellipse cx="160" cy="207" rx="104" ry="12" fill="#18181b"/>
+
+  <!-- wick -->
+  <path d="M160 206 Q158 190 162 174" stroke="#0b0b0b" stroke-width="4" stroke-linecap="round" fill="none"/>
+
+  <!-- illustrated flame: purple / blue / yellow -->
+  <g class="candle-flame">
+    <path d="M161 32 C196 86 214 120 206 150 C199 176 182 188 161 188 C140 188 122 176 116 150 C108 120 130 86 161 32 Z" fill="#7b5cff"/>
+    <path d="M161 66 C187 104 198 128 193 152 C188 172 176 181 161 181 C146 181 133 172 129 152 C125 128 137 104 161 66 Z" fill="#2f8cff"/>
+    <path d="M161 102 C177 126 184 142 181 158 C178 171 170 177 161 177 C152 177 144 171 141 158 C138 142 145 126 161 102 Z" fill="#fab838"/>
+  </g>
+</svg>
