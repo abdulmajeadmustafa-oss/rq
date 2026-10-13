@@ -3,7 +3,7 @@ const fs = require("fs");
 const {
   Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell, WidthType,
   ShadingType, BorderStyle, AlignmentType, HeadingLevel, LevelFormat, Footer,
-  Header, PageNumber, VerticalAlign, PageBreak, TableLayoutType,
+  Header, PageNumber, VerticalAlign, PageBreak, TableLayoutType, ExternalHyperlink,
 } = require("docx");
 
 const [, , SRC, OUT] = process.argv;
@@ -42,6 +42,7 @@ function run(text, o = {}, rtl = true) {
     bold: !!o.bold, boldComplexScript: !!o.bold,
     italics: !!o.italics, italicsComplexScript: !!o.italics,
     color: o.color || C.ink,
+    underline: o.underline ? {} : undefined,
     rightToLeft: rtl && hasArabic(text) || (rtl && !/[A-Za-z]/.test(text)),
   });
 }
@@ -49,13 +50,17 @@ function run(text, o = {}, rtl = true) {
 // Inline markdown: **bold**, *italic*, `code`
 function inline(text, base = {}) {
   const runs = [];
-  const re = /\*\*(.+?)\*\*|`(.+?)`|\*(.+?)\*/g;
+  const re = /\*\*(.+?)\*\*|`(.+?)`|\[(.+?)\]\((https?:\/\/[^)\s]+)\)|\*(.+?)\*/g;
   let last = 0, m;
   while ((m = re.exec(text))) {
     if (m.index > last) runs.push(...scriptRuns(text.slice(last, m.index), base));
     if (m[1] !== undefined) runs.push(...scriptRuns(m[1], { ...base, bold: true }));
     else if (m[2] !== undefined) runs.push(run("\u200E" + m[2] + "\u200E", { ...base, color: C.blue }, false));
-    else runs.push(...scriptRuns(m[3], { ...base, italics: true }));
+    else if (m[3] !== undefined) runs.push(new ExternalHyperlink({
+      link: m[4],
+      children: [run((hasArabic(m[3]) ? "" : "\u200E") + m[3] + (hasArabic(m[3]) ? "" : "\u200E"), { ...base, color: C.blue, underline: true }, hasArabic(m[3]))],
+    }));
+    else runs.push(...scriptRuns(m[5], { ...base, italics: true }));
     last = m.index + m[0].length;
   }
   if (last < text.length) runs.push(...scriptRuns(text.slice(last), base));
