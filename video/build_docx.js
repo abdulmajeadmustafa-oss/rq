@@ -8,6 +8,8 @@ const {
 
 const [, , SRC, OUT] = process.argv;
 const md = fs.readFileSync(SRC, "utf8").split("\n");
+const h1 = md.find((l) => l.startsWith("# ")) || "";
+const HEADER = "سكريبت فيديو موشن غرافيك — " + (h1.match(/«(.+)»/) || [, ""])[1];
 
 const FONT = "Arial";
 const C = {
@@ -232,7 +234,7 @@ flushScene();
 
 const doc = new Document({
   creator: "Claude Code",
-  title: "من صعدة إلى البحر الأحمر — سكريبت",
+  title: HEADER,
   styles: {
     default: {
       document: {
@@ -260,7 +262,7 @@ const doc = new Document({
       page: { size: { width: PAGE_W, height: 16838 }, margin: { top: 1300, bottom: 1300, left: MARGIN, right: MARGIN } },
     },
     headers: {
-      default: new Header({ children: [P([run("سكريبت فيديو موشن غرافيك — تاريخ جماعة الحوثي", { size: 18, color: C.grey })], { alignment: AlignmentType.CENTER })] }),
+      default: new Header({ children: [P([run(HEADER, { size: 18, color: C.grey })], { alignment: AlignmentType.CENTER })] }),
     },
     footers: {
       default: new Footer({ children: [P([
